@@ -210,3 +210,20 @@ a:hover i.icon-off {
   float: right;
   margin:
 }
+
+.people-list li .name {
+  font-size: 20px;
+}
+
+
+#round2, #round3 {
+  display: none;
+}
+
+ol li .btn {
+  float: right;
+}
+
+ol li {
+  padding: 10px 20px;
+}

@@ -2,13 +2,50 @@
 {% block body  %}
 <div class="container">
   <div class="row">
-    <h1>Group name #here#</h1>
+    <h1>Group "{{ group.name }}"</h1>
   </div>
   <div class="row">
-    <div class="span12">
+    <div class="span6">
       {% for member in group.members.all %}
       <h3>{{ member.name }}</h3>
       {% endfor %}
+    </div>
+    {% if group.winning_restaurant %}
+      <div class="span6">
+       <h1>Chosen restaurant: {{ group.winning_restaurant.name }}</h1>
+      </div>
+    {% endif %}
+    <div class="span6">
+      <div id="round1">
+        <h1>Round 1</h1>
+        <ol>
+      {% for restaurant in group.round1.all %}
+          <li>{{ restaurant.name }} <a class="btn select-this btn-warning" data-group="{{ group.id }}" data-restaurant="{{ restaurant.id }}" href="#select">select this restaurant</a></li>
+      {% endfor %}
+        <a class="btn skip btn-danger" href="#skip" data-next="#round2">skip this round</a></li>
+      </ol>
+      </div>
+      <hr />
+
+      <div id="round2">
+      <h1>Round 2</h1>
+      <ol>
+      {% for restaurant in group.round2.all %}
+          <li>{{ restaurant.name }} <a class="btn select-this btn-warning" data-group="{{ group.id }}" data-restaurant="{{ restaurant.id }}" href="#select">select this restaurant</a></li>
+      {% endfor %}
+        <a class="btn skip btn-danger" href="#skip" data-next="#round3">skip this round</a></li>
+      </ol>
+      <hr />
+      </div>
+      <div id="round3">
+        <h1>Round 3</h1>
+        <ol>
+      {% for restaurant in group.round3.all %}
+          <li>{{ restaurant.name }} <a class="btn select-this btn-warning" data-group="{{ group.id }}" data-restaurant="{{ restaurant.id }}" href="#select">select this restaurant</a></li>
+      {% endfor %}
+      </ol>
+      <hr />
+      </div>
     </div>
   </div>
 </div><!--.container -->

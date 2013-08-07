@@ -55,6 +55,24 @@ $(function(){
             var url = "/show-groups/" + codes.join("|")
             location.href = url;
         });
-
     });
+    $(".btn.skip").on("click", function(e){
+        e.preventDefault();
+        var next = $(this).data("next");
+        $(next).fadeIn();
+        $(this).parents("ol").find(".btn").hide();
+    });
+    $(".btn.select-this").on("click", function(e){
+        e.preventDefault();
+        var restaurantId = $(this).data("restaurant");
+        var groupId = $(this).data("group");
+        var data = {
+            "restaurant_id": restaurantId,
+            "group_id": groupId
+        }
+        $.post("/choose-restaurant", data, function(raw){
+            location.href = location.href;
+        })
+    });
+
 });

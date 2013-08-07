@@ -1,4 +1,7 @@
-# Django settings for lunchgameapp project.
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+import os
 from os.path import dirname, abspath, join
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -21,6 +24,7 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default.
     }
 }
+import dj_database_url
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -98,12 +102,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'lunchgameapp.urls'
+ROOT_URLCONF = 'urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'lunchgameapp.wsgi.application'
+WSGI_APPLICATION = 'wsgirun.application'
 
 TEMPLATE_DIRS = (
     LOCAL_FILE('templates'),
@@ -117,9 +122,20 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'unclebob',
     'lunch',
 )
+
+if os.getenv('PORT'):
+    os.environ['DATABASE_URL'] = os.getenv('HEROKU_POSTGRESQL_AMBER_URL')
+    DATABASES['default'] = dj_database_url.config()
+
+else:
+    INSTALLED_APPS += (
+        'unclebob',
+    )
+    TEST_RUNNER = 'unclebob.runners.Nose'
+    import unclebob
+    unclebob.take_care_of_my_tests()
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -149,9 +165,6 @@ LOGGING = {
         },
     }
 }
-TEST_RUNNER = 'unclebob.runners.Nose'
-import unclebob
-unclebob.take_care_of_my_tests()
 
 PEOPLE = [
     "Vin Vacanti",
@@ -180,3 +193,60 @@ PEOPLE = [
     "Michelle Scharfstein",
     "Hugo Tavares"
 ]
+
+RESTAURANTS = [
+    ("Laut", 50),
+    ("Qi", 50),
+    ("Meatball Shop", 50),
+    ("Ootoya", 50),
+    ("Westville", 50),
+    ("BLT Burger", 50),
+    ("Num Pang", 50),
+    ("Shake Shack", 50),
+    ("Rosa Mexicana", 50),
+    ("Grimaldis", 50),
+    ("Vapiano", 50),
+    ("Lillie's", 50),
+    ("Coffee Shop", 50),
+    ("El Cocotero", 50),
+    ("Bareburger", 50),
+
+    # these are the fancy ones :)
+    ("No. 7 Sub", 100),
+    ("Stix", 100),
+    ("ABC Cocina", 100),
+    ("Ippudo", 100),
+    ("Gramercy Tavern", 100),
+    ("Basta Pasta", 100),
+    ("Blue Smoke", 100),
+    ("Crema", 100),
+    ("ABC Kitchen", 100),
+    ("Almond", 100),
+    ("Republic", 100),
+    ("Craftbar", 100),
+    ("Barn Joo", 100),
+    ("Defontes", 100),
+    ("Eataly / Park", 100),
+    ("Umami", 100),
+]
+
+GROUP_NAMES = [
+    "Lannister",
+    "Targaryen",
+    "Stark",
+    "Baratheon",
+    "Snow",
+    "Mormont",
+    "Baelish",
+    "Cunningham",
+    "Seaworth",
+    "Greyjoy",
+    "Gleeson",
+    "Tarly",
+    "Clegane",
+]
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Allow all host headers
+ALLOWED_HOSTS = ['*']
