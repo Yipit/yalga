@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block body  %}
+<div class="container">
+  <div class="row">
+    <h1>Lunch game app</h1>
+    <div class="span6 offset3">
+      <em><strong>First:</strong> How many groups would you like to form?</em>
+      <input type="text" id="total_groups" value="4" />
+      <a class="btn btn-default" id="generate-now" href="#generate">Generate groups!</a>
+    </div><!--.span6 -->
+  </div><!--.row -->
+  <div class="row">
+    <div class="span6">
+      <h3>People who are having lunch today</h3>
+      <ul id="yes-list" class="people-list">
+        {% for person in everybody %}
+        <li data-id="{{ person.id }}">
+          <input type="hidden" class="person-id" name="person-id" value="{{ person.id }}"/>
+          <span class="name">{{ person.name }}</span>
+          <a class="remove btn btn-danger" href="#">Not going</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="span6">
+      <h3>People who aren't</h3>
+
+      <ul id="no-list"  class="people-list">
+      </ul>
+    </div>
+  </div>
+</div><!--.container -->
+{% endblock %}

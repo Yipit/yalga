@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body  %}
+<div class="container">
+  <div class="row">
+    <div class="span12">
+      <h1>Lunch game groups</h1>
+      <h3>Don't click on your group until the game starts. <em>We will be watching you :)</em></h3>
+    </div>
+    {% for group in groups %}
+    <div class="span12">
+      <h4>
+        <a href="{{ group.get_url }}">Group {{ forloop.counter }}</a>
+</h4>
+
+      <ul>
+      {% for member in group.members.all %}
+        <li>{{ member.name }}</li>
+      {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</div><!--.container -->
+{% endblock %}
